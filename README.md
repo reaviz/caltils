@@ -1,5 +1,7 @@
 # Caltils
-Utility functions for building calendar components.
+Utility functions for building calendar components. 
+
+This is code was based on [ngx-ui/calendar](https://github.com/swimlane/ngx-ui/blob/master/projects/swimlane/ngx-ui/src/lib/components/calendar/utils/get-weeks-for-days/get-weeks-for-days.util.ts).
 
 ## Usage
 ```
