@@ -1,14 +1,14 @@
-import moment from 'moment';
+import { differenceInDays } from 'date-fns';
 import { getWeeks } from './index';
 
 const expectContigousDays = month => {
-  const firstDayOfCalendar = moment(month[0][0].date);
+  const firstDayOfCalendar = month[0][0].date;
   let i = 0;
 
   month.map(weeks =>
     // eslint-disable-next-line array-callback-return
     weeks.map(day => {
-      expect(moment(day.date).diff(firstDayOfCalendar, 'days')).toEqual(i);
+      expect(differenceInDays(day.date, firstDayOfCalendar)).toEqual(i);
       i++;
     })
   );

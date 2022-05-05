@@ -1,4 +1,16 @@
-import moment from 'moment';
+import {
+  addDays,
+  format,
+  getDay,
+  getDaysInMonth,
+  getDate,
+  getISODay,
+  isValid,
+  isSameDay,
+  isSameMonth,
+  startOfMonth,
+  subDays
+} from 'date-fns';
 
 export interface Day {
   date: Date;
@@ -16,18 +28,18 @@ export interface DayOptions {
 
 export function getWeeks(
   date: Date,
-  options: DayOptions = { format: 'MM/DD/YYYY' }
+  options: DayOptions = { format: 'MM/dd/yyyy' }
 ): Day[][] {
   if (!date) {
     throw new Error('A date is required');
-  } else if (!moment(date).isValid()) {
+  } else if (!isValid(date)) {
     console.warn(`Invalid date - setting to today`, date);
     date = new Date();
   }
 
-  const daysInMonth = moment(date).daysInMonth();
-  const day = moment(date).startOf('month');
-  let offset = day.day();
+  const daysInMonth = getDaysInMonth(date);
+  let day = startOfMonth(date);
+  let offset = getDay(day);
   const numOfWeeks = Math.ceil((daysInMonth + offset) / 7);
 
   // @ts-ignore
@@ -39,30 +51,30 @@ export function getWeeks(
 
   const [firstWeek] = weeks;
   for (let i = offset; i > 0; i--) {
-    const offsetDay = day.clone().subtract(i, 'd');
+    const offsetDay = subDays(day, i);
     firstWeek.push({
-      date: offsetDay.toDate(),
-      dayOfMonth: offsetDay.date(),
-      isWeekendDay: offsetDay.isoWeekday() > 5,
+      date: offsetDay,
+      dayOfMonth: getDate(offsetDay),
+      isWeekendDay: getISODay(offsetDay) > 5,
       isPreviousMonth: true,
       isNextMonth: false,
       isToday: false,
-      formattedDate: offsetDay.format(options.format)
+      formattedDate: format(offsetDay, options.format)
     });
   }
 
   for (let i = 0, week = weeks[i]; i < numOfWeeks; i++, week = weeks[i]) {
     for (let dayOfWeek = offset; dayOfWeek < 7; dayOfWeek++) {
       week.push({
-        date: day.toDate(),
-        dayOfMonth: day.date(),
+        date: day,
+        dayOfMonth: getDate(day),
         isPreviousMonth: false,
-        isToday: day.isSame(current, 'day'),
-        isNextMonth: !day.isSame(date, 'month'),
-        isWeekendDay: day.isoWeekday() > 5,
-        formattedDate: day.format(options.format)
+        isToday: isSameDay(day, current),
+        isNextMonth: !isSameMonth(day, date),
+        isWeekendDay: getISODay(day) > 5,
+        formattedDate: format(day, options.format)
       });
-      day.add(1, 'd');
+      day = addDays(day, 1);
     }
     offset = 0;
   }
