@@ -27,7 +27,7 @@
     "lint": "tsdx lint"
   },
   "dependencies": {
-    "moment": "^2.29.1"
+    "date-fns": "^2.28.0"
   },
   "devDependencies": {
     "husky": "^4.2.5",
