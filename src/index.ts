@@ -1,14 +1,16 @@
-import addDays from 'date-fns/addDays';
-import format from 'date-fns/format';
-import getDay from 'date-fns/getDay';
-import getDaysInMonth from 'date-fns/getDaysInMonth';
-import getDate from 'date-fns/getDate';
-import getISODay from 'date-fns/getISODay';
-import isValid from 'date-fns/isValid';
-import isSameDay from 'date-fns/isSameDay';
-import isSameMonth from 'date-fns/isSameMonth';
-import startOfMonth from 'date-fns/startOfMonth';
-import subDays from 'date-fns/subDays';
+import {
+  addDays,
+  format,
+  getDay,
+  getDaysInMonth,
+  getDate,
+  getISODay,
+  isValid,
+  isSameDay,
+  isSameMonth,
+  startOfMonth,
+  subDays
+} from 'date-fns';
 
 export interface Day {
   date: Date;
